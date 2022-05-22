@@ -37,9 +37,24 @@ namespace CriptoRSA {
 	private: System::Windows::Forms::Label^ label6;
 	private: System::Windows::Forms::Label^ label3;
 	private: System::Windows::Forms::Label^ lbl_clavepriv;
+	private: System::Windows::Forms::TextBox^ txt_name_desencriptar;
+	private: System::Windows::Forms::Label^ label7;
+	private: System::Windows::Forms::Label^ lbl_text_reference_desencriptar;
+
 
 
 	private: System::Windows::Forms::Label^ label1;
+	private: System::Windows::Forms::Label^ label8;
+	private: System::Windows::Forms::TextBox^ txt_name_encriptar;
+	private: System::Windows::Forms::Label^ label9;
+	private: System::Windows::Forms::TextBox^ txt_name_para_encriptar;
+
+
+
+
+
+	private:
+		Filee* file;
 	public:
 		MyForm(void)
 		{
@@ -49,6 +64,7 @@ namespace CriptoRSA {
 			//
 			panel_encriptar->Visible = false;
 			panel_desencriptar->Visible = false;
+			file = new Filee();
 		}
 
 	protected:
@@ -102,6 +118,10 @@ namespace CriptoRSA {
 			this->btn_encriptar = (gcnew System::Windows::Forms::Button());
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->panel_encriptar = (gcnew System::Windows::Forms::Panel());
+			this->label9 = (gcnew System::Windows::Forms::Label());
+			this->txt_name_para_encriptar = (gcnew System::Windows::Forms::TextBox());
+			this->label8 = (gcnew System::Windows::Forms::Label());
+			this->txt_name_encriptar = (gcnew System::Windows::Forms::TextBox());
 			this->lbl_close_encriptar = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->label1 = (gcnew System::Windows::Forms::Label());
@@ -119,6 +139,9 @@ namespace CriptoRSA {
 			this->lbl_titulo_encripcion = (gcnew System::Windows::Forms::Label());
 			this->txt_valor_p = (gcnew System::Windows::Forms::TextBox());
 			this->panel_desencriptar = (gcnew System::Windows::Forms::Panel());
+			this->lbl_text_reference_desencriptar = (gcnew System::Windows::Forms::Label());
+			this->label7 = (gcnew System::Windows::Forms::Label());
+			this->txt_name_desencriptar = (gcnew System::Windows::Forms::TextBox());
 			this->lbl_clavepriv = (gcnew System::Windows::Forms::Label());
 			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->label3 = (gcnew System::Windows::Forms::Label());
@@ -171,6 +194,10 @@ namespace CriptoRSA {
 			// 
 			// panel_encriptar
 			// 
+			this->panel_encriptar->Controls->Add(this->label9);
+			this->panel_encriptar->Controls->Add(this->txt_name_para_encriptar);
+			this->panel_encriptar->Controls->Add(this->label8);
+			this->panel_encriptar->Controls->Add(this->txt_name_encriptar);
 			this->panel_encriptar->Controls->Add(this->lbl_close_encriptar);
 			this->panel_encriptar->Controls->Add(this->label2);
 			this->panel_encriptar->Controls->Add(this->label1);
@@ -187,10 +214,44 @@ namespace CriptoRSA {
 			this->panel_encriptar->Controls->Add(this->lbl_valor_p);
 			this->panel_encriptar->Controls->Add(this->lbl_titulo_encripcion);
 			this->panel_encriptar->Controls->Add(this->txt_valor_p);
-			this->panel_encriptar->Location = System::Drawing::Point(12, 12);
+			this->panel_encriptar->Location = System::Drawing::Point(9, 9);
 			this->panel_encriptar->Name = L"panel_encriptar";
 			this->panel_encriptar->Size = System::Drawing::Size(629, 426);
 			this->panel_encriptar->TabIndex = 6;
+			// 
+			// label9
+			// 
+			this->label9->AutoSize = true;
+			this->label9->Location = System::Drawing::Point(178, 292);
+			this->label9->Name = L"label9";
+			this->label9->Size = System::Drawing::Size(138, 64);
+			this->label9->TabIndex = 24;
+			this->label9->Text = L"Ingrese el nombre del\r\narchivo donde se\r\nleera el mensaje para\r\nencriptar";
+			// 
+			// txt_name_para_encriptar
+			// 
+			this->txt_name_para_encriptar->Location = System::Drawing::Point(181, 368);
+			this->txt_name_para_encriptar->Name = L"txt_name_para_encriptar";
+			this->txt_name_para_encriptar->Size = System::Drawing::Size(134, 22);
+			this->txt_name_para_encriptar->TabIndex = 23;
+			this->txt_name_para_encriptar->TextChanged += gcnew System::EventHandler(this, &MyForm::txt_name_para_encriptar_TextChanged);
+			// 
+			// label8
+			// 
+			this->label8->AutoSize = true;
+			this->label8->Location = System::Drawing::Point(15, 292);
+			this->label8->Name = L"label8";
+			this->label8->Size = System::Drawing::Size(137, 48);
+			this->label8->TabIndex = 22;
+			this->label8->Text = L"Ingrese el nombre del\r\narchivo donde se\r\nguardara el mensaje";
+			// 
+			// txt_name_encriptar
+			// 
+			this->txt_name_encriptar->Location = System::Drawing::Point(18, 368);
+			this->txt_name_encriptar->Name = L"txt_name_encriptar";
+			this->txt_name_encriptar->Size = System::Drawing::Size(134, 22);
+			this->txt_name_encriptar->TabIndex = 21;
+			this->txt_name_encriptar->TextChanged += gcnew System::EventHandler(this, &MyForm::textBox1_TextChanged);
 			// 
 			// lbl_close_encriptar
 			// 
@@ -255,7 +316,7 @@ namespace CriptoRSA {
 			// 
 			// btn_generar_claves
 			// 
-			this->btn_generar_claves->Location = System::Drawing::Point(113, 217);
+			this->btn_generar_claves->Location = System::Drawing::Point(113, 179);
 			this->btn_generar_claves->Name = L"btn_generar_claves";
 			this->btn_generar_claves->Size = System::Drawing::Size(121, 23);
 			this->btn_generar_claves->TabIndex = 9;
@@ -266,7 +327,7 @@ namespace CriptoRSA {
 			// lbl_clave_publica
 			// 
 			this->lbl_clave_publica->AutoSize = true;
-			this->lbl_clave_publica->Location = System::Drawing::Point(172, 294);
+			this->lbl_clave_publica->Location = System::Drawing::Point(172, 256);
 			this->lbl_clave_publica->Name = L"lbl_clave_publica";
 			this->lbl_clave_publica->Size = System::Drawing::Size(115, 16);
 			this->lbl_clave_publica->TabIndex = 8;
@@ -275,7 +336,7 @@ namespace CriptoRSA {
 			// lbl_clave_privada
 			// 
 			this->lbl_clave_privada->AutoSize = true;
-			this->lbl_clave_privada->Location = System::Drawing::Point(172, 263);
+			this->lbl_clave_privada->Location = System::Drawing::Point(172, 225);
 			this->lbl_clave_privada->Name = L"lbl_clave_privada";
 			this->lbl_clave_privada->Size = System::Drawing::Size(115, 16);
 			this->lbl_clave_privada->TabIndex = 7;
@@ -284,7 +345,7 @@ namespace CriptoRSA {
 			// lbl_const_clave_publica
 			// 
 			this->lbl_const_clave_publica->AutoSize = true;
-			this->lbl_const_clave_publica->Location = System::Drawing::Point(67, 294);
+			this->lbl_const_clave_publica->Location = System::Drawing::Point(67, 256);
 			this->lbl_const_clave_publica->Name = L"lbl_const_clave_publica";
 			this->lbl_const_clave_publica->Size = System::Drawing::Size(90, 16);
 			this->lbl_const_clave_publica->TabIndex = 6;
@@ -293,7 +354,7 @@ namespace CriptoRSA {
 			// lbl_const_clave_privada
 			// 
 			this->lbl_const_clave_privada->AutoSize = true;
-			this->lbl_const_clave_privada->Location = System::Drawing::Point(67, 263);
+			this->lbl_const_clave_privada->Location = System::Drawing::Point(67, 225);
 			this->lbl_const_clave_privada->Name = L"lbl_const_clave_privada";
 			this->lbl_const_clave_privada->Size = System::Drawing::Size(92, 16);
 			this->lbl_const_clave_privada->TabIndex = 5;
@@ -301,7 +362,7 @@ namespace CriptoRSA {
 			// 
 			// txt_valor_q
 			// 
-			this->txt_valor_q->Location = System::Drawing::Point(216, 175);
+			this->txt_valor_q->Location = System::Drawing::Point(216, 137);
 			this->txt_valor_q->Name = L"txt_valor_q";
 			this->txt_valor_q->Size = System::Drawing::Size(100, 22);
 			this->txt_valor_q->TabIndex = 4;
@@ -309,7 +370,7 @@ namespace CriptoRSA {
 			// lbl_valor_q
 			// 
 			this->lbl_valor_q->AutoSize = true;
-			this->lbl_valor_q->Location = System::Drawing::Point(50, 178);
+			this->lbl_valor_q->Location = System::Drawing::Point(50, 140);
 			this->lbl_valor_q->Name = L"lbl_valor_q";
 			this->lbl_valor_q->Size = System::Drawing::Size(137, 16);
 			this->lbl_valor_q->TabIndex = 3;
@@ -318,7 +379,7 @@ namespace CriptoRSA {
 			// lbl_valor_p
 			// 
 			this->lbl_valor_p->AutoSize = true;
-			this->lbl_valor_p->Location = System::Drawing::Point(50, 143);
+			this->lbl_valor_p->Location = System::Drawing::Point(50, 105);
 			this->lbl_valor_p->Name = L"lbl_valor_p";
 			this->lbl_valor_p->Size = System::Drawing::Size(137, 16);
 			this->lbl_valor_p->TabIndex = 2;
@@ -338,13 +399,16 @@ namespace CriptoRSA {
 			// 
 			// txt_valor_p
 			// 
-			this->txt_valor_p->Location = System::Drawing::Point(216, 140);
+			this->txt_valor_p->Location = System::Drawing::Point(216, 102);
 			this->txt_valor_p->Name = L"txt_valor_p";
 			this->txt_valor_p->Size = System::Drawing::Size(100, 22);
 			this->txt_valor_p->TabIndex = 0;
 			// 
 			// panel_desencriptar
 			// 
+			this->panel_desencriptar->Controls->Add(this->lbl_text_reference_desencriptar);
+			this->panel_desencriptar->Controls->Add(this->label7);
+			this->panel_desencriptar->Controls->Add(this->txt_name_desencriptar);
 			this->panel_desencriptar->Controls->Add(this->lbl_clavepriv);
 			this->panel_desencriptar->Controls->Add(this->label6);
 			this->panel_desencriptar->Controls->Add(this->label3);
@@ -363,11 +427,37 @@ namespace CriptoRSA {
 			this->panel_desencriptar->Size = System::Drawing::Size(629, 426);
 			this->panel_desencriptar->TabIndex = 16;
 			// 
+			// lbl_text_reference_desencriptar
+			// 
+			this->lbl_text_reference_desencriptar->AutoSize = true;
+			this->lbl_text_reference_desencriptar->Location = System::Drawing::Point(12, 341);
+			this->lbl_text_reference_desencriptar->Name = L"lbl_text_reference_desencriptar";
+			this->lbl_text_reference_desencriptar->Size = System::Drawing::Size(307, 64);
+			this->lbl_text_reference_desencriptar->TabIndex = 21;
+			this->lbl_text_reference_desencriptar->Text = resources->GetString(L"lbl_text_reference_desencriptar.Text");
+			// 
+			// label7
+			// 
+			this->label7->AutoSize = true;
+			this->label7->Location = System::Drawing::Point(67, 285);
+			this->label7->Name = L"label7";
+			this->label7->Size = System::Drawing::Size(224, 16);
+			this->label7->TabIndex = 20;
+			this->label7->Text = L"Ingrese el nombre de su archivo (.txt)";
+			// 
+			// txt_name_desencriptar
+			// 
+			this->txt_name_desencriptar->Location = System::Drawing::Point(70, 304);
+			this->txt_name_desencriptar->Name = L"txt_name_desencriptar";
+			this->txt_name_desencriptar->Size = System::Drawing::Size(217, 22);
+			this->txt_name_desencriptar->TabIndex = 19;
+			this->txt_name_desencriptar->TextChanged += gcnew System::EventHandler(this, &MyForm::txt_name_desencriptar_TextChanged);
+			// 
 			// lbl_clavepriv
 			// 
 			this->lbl_clavepriv->AutoSize = true;
 			this->lbl_clavepriv->ImageAlign = System::Drawing::ContentAlignment::MiddleLeft;
-			this->lbl_clavepriv->Location = System::Drawing::Point(91, 303);
+			this->lbl_clavepriv->Location = System::Drawing::Point(103, 233);
 			this->lbl_clavepriv->Name = L"lbl_clavepriv";
 			this->lbl_clavepriv->Size = System::Drawing::Size(121, 16);
 			this->lbl_clavepriv->TabIndex = 18;
@@ -376,7 +466,7 @@ namespace CriptoRSA {
 			// label6
 			// 
 			this->label6->AutoSize = true;
-			this->label6->Location = System::Drawing::Point(91, 263);
+			this->label6->Location = System::Drawing::Point(103, 193);
 			this->label6->Name = L"label6";
 			this->label6->Size = System::Drawing::Size(25, 16);
 			this->label6->TabIndex = 17;
@@ -385,7 +475,7 @@ namespace CriptoRSA {
 			// label3
 			// 
 			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(91, 224);
+			this->label3->Location = System::Drawing::Point(103, 154);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(24, 16);
 			this->label3->TabIndex = 16;
@@ -454,7 +544,7 @@ namespace CriptoRSA {
 			// 
 			// txt_claveprivada2
 			// 
-			this->txt_claveprivada2->Location = System::Drawing::Point(122, 259);
+			this->txt_claveprivada2->Location = System::Drawing::Point(134, 189);
 			this->txt_claveprivada2->Name = L"txt_claveprivada2";
 			this->txt_claveprivada2->Size = System::Drawing::Size(100, 22);
 			this->txt_claveprivada2->TabIndex = 4;
@@ -463,7 +553,7 @@ namespace CriptoRSA {
 			// label11
 			// 
 			this->label11->AutoSize = true;
-			this->label11->Location = System::Drawing::Point(91, 181);
+			this->label11->Location = System::Drawing::Point(103, 111);
 			this->label11->Name = L"label11";
 			this->label11->Size = System::Drawing::Size(152, 16);
 			this->label11->TabIndex = 2;
@@ -483,7 +573,7 @@ namespace CriptoRSA {
 			// 
 			// txt_claveprivada1
 			// 
-			this->txt_claveprivada1->Location = System::Drawing::Point(121, 221);
+			this->txt_claveprivada1->Location = System::Drawing::Point(133, 151);
 			this->txt_claveprivada1->Name = L"txt_claveprivada1";
 			this->txt_claveprivada1->Size = System::Drawing::Size(100, 22);
 			this->txt_claveprivada1->TabIndex = 0;
@@ -495,11 +585,11 @@ namespace CriptoRSA {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->ClientSize = System::Drawing::Size(658, 448);
-			this->Controls->Add(this->panel_desencriptar);
 			this->Controls->Add(this->panel_encriptar);
+			this->Controls->Add(this->panel_desencriptar);
+			this->Controls->Add(this->pictureBox1);
 			this->Controls->Add(this->btn_desencriptar);
 			this->Controls->Add(this->btn_encriptar);
-			this->Controls->Add(this->pictureBox1);
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
@@ -512,9 +602,6 @@ namespace CriptoRSA {
 		}
 #pragma endregion
 	private: System::Void btn_encriptar_Click(System::Object^ sender, System::EventArgs^ e) {
-		/*pictureBox1->Visible = false;
-		btn_desencriptar->Visible = false;
-		btn_encriptar->Visible = false;*/
 		panel_encriptar->Visible = true;
 	}
 	private: System::Void btn_desencriptar_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -531,26 +618,48 @@ namespace CriptoRSA {
 		else {
 			p = Convert::ToInt32(txt_valor_p->Text);
 			q = Convert::ToInt32(txt_valor_q->Text);
-			n = p * q;
-			z = (p - 1) * (q - 1);
-			d = encontrar_d(z);
-			e1 = encontrar_e(d, z);
-			clavePriv1 = clavePub1 = n;
-			clavePriv2 = d;
-			clavePub2 = e1;
-			lbl_clave_privada->Text = "(" + n + ";" + d + ")";
-			lbl_clave_publica->Text = "(" + n + ";" + e1 + ")";
+			if (p + q < 25)
+			{
+				MessageBox::Show("Ingrese valores mas altos", "WARNING", MessageBoxButtons::OK);
+			}
+			else {
+				n = p * q;
+				z = (p - 1) * (q - 1);
+				d = encontrar_d(z);
+				e1 = encontrar_e(d, z);
+				clavePriv1 = clavePub1 = n;
+				clavePriv2 = d;
+				clavePub2 = e1;
+				lbl_clave_privada->Text = "(" + n + ";" + d + ")";
+				lbl_clave_publica->Text = "(" + n + ";" + e1 + ")";
+			}
 		}
 	}
 	private: System::Void btn_encriptar_texto_Click(System::Object^ sender, System::EventArgs^ e) {
-		if (txt_para_encriptar->Text->Length == 0)
+		txt_resultado_encriptado->Text = "";
+		if (txt_para_encriptar->Text->Length == 0 && txt_name_para_encriptar->TextLength == 0)
 			MessageBox::Show("Le falta ingresar un mensaje", "WARNING", MessageBoxButtons::OK);
 		else if (clavePriv1 == 0)
 			MessageBox::Show("Aun no tiene generado un clave", "WARNING", MessageBoxButtons::OK);
 		else {
-			txt_resultado_encriptado->Text = encriptar(txt_para_encriptar->Text, n, e1);
+			if (txt_name_para_encriptar->TextLength == 0) {
+				txt_resultado_encriptado->Text = encriptar(txt_para_encriptar->Text, n, e1);
+				if (txt_name_encriptar->TextLength != 0)
+					file->writeData(txt_name_encriptar->Text, encriptar(txt_para_encriptar->Text, n, e1));
+			}
+			else if (txt_name_para_encriptar->TextLength != 0) {
+				file->readData(txt_name_para_encriptar->Text);
+				if (file->gettext().length() == 0)
+					MessageBox::Show("No existe el archivo o no hay mensaje en el archivo", "WARNING", MessageBoxButtons::OK);
+				else {
+					txt_resultado_encriptado->Text = encriptar(gcnew String(file->gettext().c_str()), n, e1);
+					if (txt_name_encriptar->TextLength != 0)
+						file->writeData(txt_name_encriptar->Text, encriptar(gcnew String(file->gettext().c_str()), n, e1));
+					file->resettext();
+				}
+			}
 		}
-		//12 3 9 13 10 -> lucas clave (15,7)
+
 	}
 	private: System::Void lbl_close_encriptar_Click(System::Object^ sender, System::EventArgs^ e) {
 		panel_encriptar->Visible = false;
@@ -559,14 +668,28 @@ namespace CriptoRSA {
 		panel_desencriptar->Visible = false;
 	}
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
+		txt_resultado_desencriptado->Text = "";
+		panel_desencriptar->Visible = true;
 		if (txt_claveprivada1->Text->Length == 0 || txt_claveprivada2->Text->Length == 0)
 			MessageBox::Show("Le falta ingresar la clave", "WARNING", MessageBoxButtons::OK);
-		else if(txt_para_desencriptar->Text->Length == 0)
+		else if (txt_para_desencriptar->Text->Length == 0 && txt_name_desencriptar->TextLength == 0)
 			MessageBox::Show("Le falta el mensaje para desencriptar", "WARNING", MessageBoxButtons::OK);
-		else {
+		else 
+		{
 			n = Convert::ToInt32(txt_claveprivada1->Text);
 			d = Convert::ToInt32(txt_claveprivada2->Text);
-			txt_resultado_desencriptado->Text = desencriptar(txt_para_desencriptar->Text, n, d);
+			if (txt_para_desencriptar->Enabled) {
+				txt_resultado_desencriptado->Text = desencriptar(txt_para_desencriptar->Text, n, d);
+			}
+			else {
+				file->readData(txt_name_desencriptar->Text);
+				if (file->gettext().length() == 0)
+					MessageBox::Show("No existe el archivo o no hay mensaje en el archivo", "WARNING", MessageBoxButtons::OK);
+				else {
+					txt_resultado_desencriptado->Text = desencriptar(gcnew String(file->gettext().c_str()), n, d);
+					file->resettext();
+				}
+			}
 		}
 	}
 	private: System::Void txt_claveprivada1_TextChanged(System::Object^ sender, System::EventArgs^ e) {
@@ -582,6 +705,26 @@ namespace CriptoRSA {
 
 		lbl_clavepriv->Text = "Clave Privada: (" + cp1 +
 			";" + cp2 + ")";
+	}
+	private: System::Void txt_name_desencriptar_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+		if (txt_name_desencriptar->TextLength > 0) {
+			txt_para_desencriptar->Enabled = false;
+		}
+		else txt_para_desencriptar->Enabled = true;
+	} System::Void textBox1_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+		if (txt_name_encriptar->TextLength > 0) {
+			txt_name_para_encriptar->Enabled = false;
+		}
+		else txt_name_para_encriptar->Enabled = true;
+	}
+	private: System::Void txt_name_para_encriptar_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+		if (txt_name_para_encriptar->TextLength > 0) {
+			txt_para_encriptar->Enabled = false;
+		}
+		else {
+			txt_name_encriptar->Enabled = true;
+			txt_para_encriptar->Enabled = true;
+		}
 	}
 };
 }

@@ -11788,6 +11788,13 @@
         ERERERERERERERERkSeXf/Ev/n963gpmZgQZ4wAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="lbl_text_reference_desencriptar.Text" xml:space="preserve">
+    <value>Si existe un archivo creado, ingrese el nombre
+para poder desencriptarlo. Al hacerlo no sera
+necesario ingresar texto en el cuadro del costado.
+En caso no exista tal archivo le aparecera un error.
+</value>
+  </data>
   <data name="$this.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         /9j/4AAQSkZJRgABAQEAYABgAAD/4QBuRXhpZgAATU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAZKG

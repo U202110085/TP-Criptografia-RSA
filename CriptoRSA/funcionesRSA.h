@@ -3,6 +3,7 @@
 #include <ctime>
 #include <vector>
 #include <string>
+#include <fstream>
 
 using namespace System;
 using namespace std;
@@ -41,6 +42,7 @@ int encontrar_d(int b) {
 
     srand(time(0));
     int pos = rand() % cont;
+    cout << pos;
     while (pos > 1) {
         primos.pop_back();
         pos--;
@@ -181,3 +183,56 @@ String^ power(int x, int n)
 
     return result;
 }
+
+class Filee {
+private:
+    ofstream fileWrite;
+    ifstream fileRead;
+    string text;
+
+public:
+    Filee() {}
+    ~Filee() {}
+
+    void readData(String^ txtName) {
+        string aux;
+        MarshalString(txtName, aux);
+        aux.append(".txt");
+        string readtext;
+        fileRead.open(aux, ios::out);
+
+        if (fileRead.fail()) {
+            fileRead.close();
+
+
+            return;
+        }
+
+        while (1) {
+            getline(fileRead, readtext);
+            if (readtext.length() == 0)
+                break;
+            text.append(readtext);
+            readtext.clear();
+        }
+
+        //getline(fileRead, text);
+
+        fileRead.close();
+    }
+
+    void writeData(String^ txtName, String^ txtMessage) {
+        string aux1, aux2;
+        MarshalString(txtName, aux1);
+        aux1.append(".txt");
+        MarshalString(txtMessage, aux2);
+        fileWrite.open(aux1, ios::out);
+        fileWrite << aux2;
+        fileWrite.close();
+    }
+
+    string gettext() { return text; }
+
+    void resettext() { text = ""; }
+
+};
